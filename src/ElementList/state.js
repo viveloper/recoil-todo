@@ -1,13 +1,18 @@
-import { atomFamily, selector } from 'recoil';
+import { atom, atomFamily, selectorFamily } from 'recoil';
+
+export const elementsState = atom({
+  key: 'Elements',
+  default: [],
+});
 
 export const elementStateFamily = atomFamily({
   key: 'Element',
-  default: (element) => element,
+  default: selectorFamily({
+    key: 'Element/Default',
+    get:
+      (id) =>
+      ({ get }) => {
+        return get(elementsState).find((element) => element.id === id);
+      },
+  }),
 });
-
-// export const elementPositionListState = selector({
-//   key: 'ElementPositionList',
-//   get: ({ get }) => {
-//     return get(elementPositionStateFamily(1));
-//   },
-// });
